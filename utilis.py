@@ -24,7 +24,7 @@ def YOLO_Detection(model, frame, mode = "track"):
 
 
 # Function to draw polygons and labels on a frame
-def draw_working_areas(frame,area, index = int ,color = (113,179,60)):
+def draw_working_areas(frame,polygon_points, index = int ,color = (113,179,60)):
     """
     Draws the defined working areas on the given frame.
 
@@ -34,14 +34,14 @@ def draw_working_areas(frame,area, index = int ,color = (113,179,60)):
     """
 
     # Convert area to a numpy array of shape (n_points, 1, 2)
-    pts = np.array(area, np.int32)
-    pts = pts.reshape((-1, 1, 2))
+    polygon_vertices = np.array(polygon_points, np.int32)
+    polygon_vertices = polygon_vertices.reshape((-1, 1, 2))
 
     # Draw the polygon
-    cv2.polylines(frame, [pts], isClosed=True, color=color, thickness=2)
+    cv2.polylines(frame, [polygon_vertices], isClosed=True, color=color, thickness=2)
 
     # Put the index number at the first vertex
-    cv2.putText(frame, str(index + 1), (pts[0][0][0], pts[0][0][1] - 10),
+    cv2.putText(frame, str(index + 1), (polygon_vertices[0][0][0], polygon_vertices[0][0][1] - 10),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
 
 
